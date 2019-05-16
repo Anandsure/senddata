@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wheeler</title>
+
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+</head>
+<body>
+<div class="container">
+	<br><br><br><br>
+	<form class="form-inline">
+	  <div class="form-group">
+	    <label class="sr-only" for="emailInput">Type the input</label>
+	    <input type="text" class="form-control" id="inputtext" placeholder="type to send">
+	  </div>
+	  <div class="col-lg-4">
+			<button class="btn btn-block btn-primary" id="post-chat" type="button" onclick="send_result()">Send</button>
+		</div>
+	</form>
+	<br>
+	<div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+	<div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+function send_result(){
+
+$.ajax({
+	data : JSON.stringify({
+		text : $('#inputtext').val(),
+	}),
+	dataType: 'json',
+	type : 'POST',
+	url : 'http://localhost:5000/process'
+})
+.done(function(data) {
+
+	if (data.error) {
+		$('#errorAlert').text(data.error).show();
+		$('#successAlert').hide();
+	}
+	else {
+		$('#successAlert').text(data.name).show();
+		$('#errorAlert').hide();
+	}
+
+});
+};
+</script>
+</body>
+</html>
